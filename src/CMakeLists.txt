@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(siqad VERSION 0.2.0)
 # TODO add way to push version number into source code
-#add_executable(src/main.cc)
 
 find_package(Qt5Core ${QT_VERSION_REQ} REQUIRED)
 find_package(Qt5Gui ${QT_VERSION_REQ} REQUIRED)
@@ -18,8 +17,10 @@ add_definitions( -DAPP_VERSION=\"0.1.0\" -DAPPLICATION_NAME=\"SiQAD\" -DORGANIZA
 
 qt5_add_resources(CUSTOM_RSC resources/application.qrc)
 
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+if(CMAKE_BUILD_TYPE MATCHES Release)
+    set(SIQAD_INSTALL_ROOT "release" CACHE STRING "SiQAD install root directory name")
+else()
+    set(SIQAD_INSTALL_ROOT "debug" CACHE STRING "SiQAD install root directory name")
 endif()
 
 set(CMAKE_CXX_STANDARD 11)
@@ -120,11 +121,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Charts
 )
 
-#target_include_directories(SiQAD PUBLIC
-#    "${PROJECT_SOURCE_DIR}/src"
-
-#add_subdirectory(src/phys/afmmarcus)
-#
-#add_subdirectory(src/phys/simanneal)
-#
-#add_subdirectory(src/phys/poissolver)
+#install(TARGETS simanneal RUNTIME DESTINATION ${CMAKE_BUILD_TYPE}/phys/simanneal)
+#install(FILES sim_anneal.physeng DESTINATION ${CMAKE_BUILD_TYPE}/phys/simanneal)
+install(TARGETS siqad RUNTIME DESTINATION ${SIQAD_INSTALL_ROOT})
+install(FILES phys/is_python3.py phys/README.md DESTINATION ${SIQAD_INSTALL_ROOT}/phys)

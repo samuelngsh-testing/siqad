@@ -66,7 +66,7 @@ bool PluginManager::findWorkingPythonPath()
     return false;
   }
 
-  QString test_script = QDir(QCoreApplication::applicationDirPath()).filePath("src/phys/is_python3.py");
+  QString test_script = QDir(QCoreApplication::applicationDirPath()).filePath("phys/is_python3.py");
   if (!QFile::exists(test_script)) {
     qDebug() << tr("Python version test script %1 not found").arg(test_script);
     return false;
