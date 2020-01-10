@@ -13,8 +13,8 @@
 #include <QtCore>
 #include <QXmlStreamReader>
 
-#include "src/settings/settings.h"
-#include "src/gui/property_map.h"
+#include "settings/settings.h"
+#include "gui/property_map.h"
 
 namespace comp{
 

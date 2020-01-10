@@ -10,8 +10,8 @@
 
 #include <QtWidgets>
 #include "../design_panel.h"
-#include "src/gui/widgets/components/job_results/electron_config_set.h"
-#include "src/gui/widgets/primitives/dbdot.h"
+#include "gui/widgets/components/job_results/electron_config_set.h"
+#include "gui/widgets/primitives/dbdot.h"
 
 namespace gui{
 

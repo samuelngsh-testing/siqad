@@ -14,7 +14,7 @@
 #include <QtCore>
 #include "plugin_engine.h"
 #include "job_results/job_result_types.h"
-#include "src/settings/settings.h" // TODO probably need this later
+#include "settings/settings.h" // TODO probably need this later
 #include <tuple> //std::tuple for 3+ article data structure, std::get for accessing the tuples
 #include <QDir>
 

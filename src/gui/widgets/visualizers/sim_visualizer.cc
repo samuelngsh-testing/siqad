@@ -10,7 +10,7 @@
 #include <QtCharts/QScatterSeries>
 
 #include "sim_visualizer.h"
-#include "src/settings/settings.h"
+#include "settings/settings.h"
 
 using namespace gui;
 

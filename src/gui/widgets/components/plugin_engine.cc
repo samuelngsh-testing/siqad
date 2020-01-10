@@ -6,7 +6,7 @@
 // @desc:     Plugin engine implementation.
 
 #include "plugin_engine.h"
-#include "src/settings/settings.h"
+#include "settings/settings.h"
 
 using namespace comp;
 

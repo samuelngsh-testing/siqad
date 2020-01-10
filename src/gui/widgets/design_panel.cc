@@ -7,7 +7,7 @@
 // @desc:     DesignPanel implementation
 
 #include "design_panel.h"
-#include "src/settings/settings.h"
+#include "settings/settings.h"
 
 #include <algorithm>
 

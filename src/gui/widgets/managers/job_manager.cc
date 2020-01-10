@@ -7,7 +7,7 @@
 //            them, as well as sending results to the appropriate target widget.
 
 #include "job_manager.h"
-#include "src/global.h"
+#include "global.h"
 
 using namespace gui;
 

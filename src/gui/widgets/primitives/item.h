@@ -15,9 +15,9 @@
 #include <QMetaEnum>
 
 #include "emitter.h"
-#include "src/global.h"
-#include "src/settings/settings.h"
-#include "src/gui/property_map.h"
+#include "global.h"
+#include "settings/settings.h"
+#include "gui/property_map.h"
 
 namespace prim{
 

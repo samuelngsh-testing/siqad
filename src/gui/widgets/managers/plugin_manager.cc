@@ -6,7 +6,7 @@
 // @desc:     Widget for loading and managing plugins.
 
 #include "plugin_manager.h"
-#include "src/settings/settings.h"
+#include "settings/settings.h"
 
 namespace gui{
 
