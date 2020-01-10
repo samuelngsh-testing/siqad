@@ -1,7 +1,7 @@
 // @file:     siqadconn.h
 // @author:   Samuel
 // @created:  2017.08.23
-// @editted:  2019.05.25 - Samuel
+// @editted:  2020.01.10 - Samuel
 // @license:  Apache License 2.0
 //
 // @desc:     Convenient functions for interacting with SiQAD including
@@ -28,7 +28,7 @@
 #include <chrono>
 
 namespace phys{
-  namespace bpt = boost::property_tree;
+  //namespace bpt = boost::property_tree;
 
   // forward declaration
   struct Layer;
@@ -117,33 +117,33 @@ namespace phys{
     void readProblem(const std::string &path);
 
     // Read program properties
-    void readProgramProp(const bpt::ptree &);
+    void readProgramProp(const boost::property_tree::ptree &);
 
     // Read layer properties
-    void readLayers(const bpt::ptree &);
-    void readLayerProp(const bpt::ptree &);
+    void readLayers(const boost::property_tree::ptree &);
+    void readLayerProp(const boost::property_tree::ptree &);
 
     // Read simulation parameters
-    void readSimulationParam(const bpt::ptree &);
+    void readSimulationParam(const boost::property_tree::ptree &);
 
     // Read design
-    void readDesign(const bpt::ptree &, const std::shared_ptr<Aggregate> &);
-    void readItemTree(const bpt::ptree &, const std::shared_ptr<Aggregate> &);
-    void readElectrode(const bpt::ptree &, const std::shared_ptr<Aggregate> &);
-    void readElectrodePoly(const bpt::ptree &, const std::shared_ptr<Aggregate> &);
-    void readDBDot(const bpt::ptree &, const std::shared_ptr<Aggregate> &);
+    void readDesign(const boost::property_tree::ptree &, const std::shared_ptr<Aggregate> &);
+    void readItemTree(const boost::property_tree::ptree &, const std::shared_ptr<Aggregate> &);
+    void readElectrode(const boost::property_tree::ptree &, const std::shared_ptr<Aggregate> &);
+    void readElectrodePoly(const boost::property_tree::ptree &, const std::shared_ptr<Aggregate> &);
+    void readDBDot(const boost::property_tree::ptree &, const std::shared_ptr<Aggregate> &);
 
     // Generate property trees for writing
-    bpt::ptree engInfoPropertyTree();
-    bpt::ptree simParamsPropertyTree();
-    bpt::ptree dbLocPropertyTree();
-    bpt::ptree dbChargePropertyTree();
-    bpt::ptree electrodePropertyTree();
-    // bpt::ptree electrodePolyPropertyTree();
-    bpt::ptree potentialPropertyTree();
-    bpt::ptree dbPotentialPropertyTree(); // TODO fix up this function, a lot of redundant information
-    bpt::ptree sqCommandsPropertyTree();
-    bpt::ptree miscPropertyTree();
+    boost::property_tree::ptree engInfoPropertyTree();
+    boost::property_tree::ptree simParamsPropertyTree();
+    boost::property_tree::ptree dbLocPropertyTree();
+    boost::property_tree::ptree dbChargePropertyTree();
+    boost::property_tree::ptree electrodePropertyTree();
+    // boost::property_tree::ptree electrodePolyPropertyTree();
+    boost::property_tree::ptree potentialPropertyTree();
+    boost::property_tree::ptree dbPotentialPropertyTree(); // TODO fix up this function, a lot of redundant information
+    boost::property_tree::ptree sqCommandsPropertyTree();
+    boost::property_tree::ptree miscPropertyTree();
 
     // Engine properties
     std::string eng_name;                 // name of simulation engine
