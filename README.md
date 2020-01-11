@@ -1,3 +1,7 @@
+# About this Fork
+
+The purpose of this fork is to explore the possibility of integrating with Travis CI and other CI systems without granting them access to the account hosting the main repository.
+
 # SiQAD
 
 SiQAD (Silicon Quantum Atomic Designer) is a next-generation CAD tool that enables the design and simulation of silicon dangling bond (Si-DB) circuits through an intuitive graphical user interface (GUI) and a modular simulation back-end. The tool currently offers simulators that predict ground-state and dynamic electron configuration of given Si-DB configurations, and electrostatics simulation given electrode layouts. Please read the [arXiv paper](https://arxiv.org/abs/1808.04916) for a detailed introduction to the tool and simulators, and visit the [Walus Lab website](https://waluslab.ece.ubc.ca/siqad/) for information about us and other projects that Walus Lab works on!
