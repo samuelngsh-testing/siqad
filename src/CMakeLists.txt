@@ -16,6 +16,8 @@ find_package(Qt5Charts ${QT_VERSION_REQ} REQUIRED)
 add_definitions( -DAPP_VERSION=\"0.1.0\" -DAPPLICATION_NAME=\"SiQAD\" -DORGANIZATION_NAME=\"WalusLab\" )
 
 qt5_add_resources(CUSTOM_RSC resources/application.qrc)
+#qt5_add_binary_resources(bin_resources resources/application.qrc OPTIONS -no-compress)
+#add_dependencies(siqad bin_resources)
 
 if(CMAKE_BUILD_TYPE MATCHES Release)
     set(SIQAD_INSTALL_ROOT "release" CACHE STRING "SiQAD install root directory name")
@@ -34,6 +36,7 @@ set(QT_VERSION_REQ "5.2")
 set(SOURCES
     main.cc
     global.cc
+    #resources/application.qrc
     # settings
 	settings/settings.cc
 	settings/settings_dialog.cc
@@ -104,12 +107,14 @@ include_directories(
    	gui/widgets/components
 )
 
-
-
-
 set(CMAKE_AUTOMOC ON)
+#set(CMAKE_AUTORCC ON)
 
 add_executable(siqad ${SOURCES} ${CUSTOM_RSC})
+# for windows, add WIN32 to avoid the console window showing up
+#add_executable(siqad WIN32 ${SOURCES} ${CUSTOM_RSC})
+#add_executable(siqad ${SOURCES})
+#add_dependencies(siqad bin_resources)
 
 target_link_libraries(${PROJECT_NAME}
     Qt5::Core

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+project(siqad_suite)
+
 # For release builds, add flag "-DCMAKE_BUILD_TYPE=Release" (without quotes) when running cmake.
 # Add flag "-DCMAKE_INSTALL_PREFIX=" to define installation location.
 
