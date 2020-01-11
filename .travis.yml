@@ -15,7 +15,7 @@ before_install:
         export msys2+=" -msys2 -c \$\* --"
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
         ## Install more MSYS2 packages from https://packages.msys2.org/base here
-        $msys2 pacman -S mingw-w64-gcc mingw-w64-pkg-config mingw-w64-boost mingw-w64-qt5-static
+        $msys2 pacman -S --noconfirm mingw-w64-gcc mingw-w64-pkg-config mingw-w64-boost mingw-w64-qt5-static
         taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
         export PATH=/C/tools/msys64/mingw64/bin:$PATH
         export MAKE=mingw32-make  # so that Autotools can find it
@@ -36,9 +36,8 @@ cache:
 script:
   #- export CC=gcc-7
   #- export CXX=g++-7
-- ${MINGW_PREFIX}/bin/cmake --version
-- ${MINGW_PREFIX}/bin/cmake CMakeLists.txt
-- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64
+- cmake --version
+- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64 -G "MinGW Makefiles" CMakeLists.txt
 - make install
 - find .
 - zip -r build-w64.zip build-w64
