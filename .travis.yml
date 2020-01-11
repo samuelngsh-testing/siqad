@@ -1,21 +1,32 @@
-matrix:
-  include:
-    - os: linux
-      addons:
-        apt:
-          packages:
-            - cmake
-            - gcc
-            - g++
-            - qtchooser
-            - qt5-default
-            - libqt5svg5-dev
-            - qttools5-dev
-            - qttools5-dev-tools
-            - libboost-dev
-            - libboost-filesystem-dev
-            - libboost-system-dev
-            - libboost-thread-dev
-            - pkg-config
-before_install:
-      - eval "${MATRIX_EVAL}"
+os: linux
+dist: bionic
+sudo: require
+language: cpp
+compiler: gcc
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - cmake
+      - gcc-7
+      - g++-7
+      - qtchooser
+      - qt5-default
+      - libqt5svg5-dev
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libboost-dev
+      - libboost-filesystem-dev
+      - libboost-system-dev
+      - libboost-thread-dev
+      - pkg-config
+script:
+  - export CC=gcc-7
+  - export CXX=g++-7
+  - cmake --version
+  - cmake CMakeLists.txt
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-bionic ..
+  - make install
