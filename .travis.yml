@@ -1,7 +1,7 @@
 os: windows
 language: cpp
 compiler: gcc
-before_install:
+before_script:
 - |-
     case $TRAVIS_OS_NAME in
       windows)
@@ -15,7 +15,6 @@ before_install:
         export msys2+=" -msys2 -c \$\* --"
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
         ## Install more MSYS2 packages from https://packages.msys2.org/base here
-        $msys2 pacman -S --noconfirm mingw-w64-gcc mingw-w64-pkg-config mingw-w64-boost mingw-w64-qt5-static
         taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
         export PATH=/C/tools/msys64/mingw64/bin:$PATH
         export MAKE=mingw32-make  # so that Autotools can find it
@@ -27,6 +26,7 @@ before_cache:
       windows)
         # https://unix.stackexchange.com/a/137322/107554
         $msys2 pacman --sync --clean --noconfirm
+        $msys2 pacman -S --noconfirm mingw-w64-gcc mingw-w64-pkg-config mingw-w64-boost mingw-w64-qt5-static
         ;;
     esac
 cache:
