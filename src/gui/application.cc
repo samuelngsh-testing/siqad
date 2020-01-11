@@ -18,7 +18,7 @@
 
 // gui includes
 #include "application.h"
-#include "src/settings/settings.h"
+#include "settings/settings.h"
 
 
 // init the DialogPanel to NULL until build in constructor

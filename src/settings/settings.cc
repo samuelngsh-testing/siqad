@@ -108,7 +108,7 @@ QSettings *settings::AppSettings::m_defs()
 
   S->setValue("snap/diameter", 5.);             //relative to scale_fact
 
-  S->setValue("dir/lattice", QString("<BINPATH>/src/settings/lattices"));
+  S->setValue("dir/lattice", QString("<BINPATH>/settings/lattices"));
 
   S->setValue("extra_icon_theme_path", QStringList({
         "<BINPATH>/icons/"
@@ -140,11 +140,11 @@ QSettings *settings::AppSettings::m_defs()
   S->setValue("phys/eng_lib_dirs", QStringList({
     "<APPLOCALDATA>/phys/",
     "<APPLOCALDATA>/plugins/",
-    "<BINPATH>/src/phys/",
+    "<BINPATH>/phys/",
     "<BINPATH>/plugins/"
   }));
   //S->setValue("phys/eng_lib_dirs", QString("<APPLOCALDATA>/phys"));
-  //S->setValue("phys/eng_lib_dirs", QString("<BINPATH>/src/phys/"));
+  //S->setValue("phys/eng_lib_dirs", QString("<BINPATH>/phys/"));
   S->setValue("phys/eng_usr_cfg_dir", QString("<CONFIG>/phys/")); // TODO delete
   S->setValue("phys/preset_root_path", QString("<CONFIG>/phys/"));
   S->setValue("phys/runtime_tmp_root_path", QString("<SYSTMP>/phys/"));
@@ -186,7 +186,7 @@ QSettings* settings::GUISettings::m_defs()
 
   S->setValue("SIMMAN/mw", 100);     // simulation manager minimum width
 
-  S->setValue("lattice/fname", QString("src/settings/lattices/si_100_2x1.ini"));
+  S->setValue("lattice/fname", QString("settings/lattices/si_100_2x1.ini"));
   S->setValue("lattice/minsize", 50);  // minimum lattice n, m size
 
   // QGraphicsView

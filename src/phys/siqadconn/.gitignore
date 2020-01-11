@@ -1,4 +1,7 @@
 build
+_skbuild
+dist
+*.egg-info/**
 *.cxx
 *.o
 *.so
