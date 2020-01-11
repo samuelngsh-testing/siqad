@@ -6,7 +6,7 @@ project(siqad_suite)
 # Add flag "-DCMAKE_INSTALL_PREFIX=" to define installation location.
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the build type.")
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the build type.")
 endif()
 
 add_subdirectory(src)

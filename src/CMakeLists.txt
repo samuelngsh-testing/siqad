@@ -19,10 +19,10 @@ qt5_add_resources(CUSTOM_RSC resources/application.qrc)
 #qt5_add_binary_resources(bin_resources resources/application.qrc OPTIONS -no-compress)
 #add_dependencies(siqad bin_resources)
 
-if(CMAKE_BUILD_TYPE MATCHES Release)
-    set(SIQAD_INSTALL_ROOT "release" CACHE STRING "SiQAD install root directory name")
-else()
+if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(SIQAD_INSTALL_ROOT "debug" CACHE STRING "SiQAD install root directory name")
+else()
+    set(SIQAD_INSTALL_ROOT "release" CACHE STRING "SiQAD install root directory name")
 endif()
 
 set(CMAKE_CXX_STANDARD 11)

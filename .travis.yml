@@ -1,34 +1,44 @@
 os: linux
 dist: bionic
-sudo: require
 language: cpp
 compiler: gcc
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
-      - ubuntu-sdk-team/ppa
+    - ubuntu-toolchain-r-test
+    - ubuntu-sdk-team/ppa
     packages:
-      - cmake
-      - gcc-7
-      - g++-7
-      - qtchooser
-      - qt5-default
-      - libqt5svg5-dev
-      - qttools5-dev
-      - qttools5-dev-tools
-      - libqt5charts5
-      - libqt5charts5-dev
-      - libboost-dev
-      - libboost-filesystem-dev
-      - libboost-system-dev
-      - libboost-thread-dev
-      - pkg-config
+    - cmake
+    - gcc-7
+    - g++-7
+    - qtchooser
+    - qt5-default
+    - libqt5svg5-dev
+    - qttools5-dev
+    - qttools5-dev-tools
+    - libqt5charts5
+    - libqt5charts5-dev
+    - libboost-dev
+    - libboost-filesystem-dev
+    - libboost-system-dev
+    - libboost-thread-dev
+    - pkg-config
+    - zip
 script:
-  - export CC=gcc-7
-  - export CXX=g++-7
-  - cmake --version
-  - cmake CMakeLists.txt
-  - mkdir build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-bionic
-  - make install
+- export CC=gcc-7
+- export CXX=g++-7
+- cmake --version
+- cmake CMakeLists.txt
+- mkdir build
+- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-bionic
+- make install
+- zip -r build-bionic.zip build-bionic
+deploy:
+  provider: releases
+  api_key:
+    secure: Ckuaavh64vpBm9AHv+rgLNwdM6z4Op8C6CAJvSeC6pnmOvgOtfpmo27Y0cDdm0eEhuejbJrXg8PSr4LaeuBQBALLmhlVVvAVF/7So4Vy33WYYrAOfY6kDCKiT6L6LcvafzdlLf4+hGV5ek64ovPLH53WoDCqwKX0dvTL1j+IunZF7Rw+vEZ3muUG+OVvvoF1zUaiZ7+wd/vZvyNc6ScRy7VJOrNR+QX0NyiA2cirHAjAANh9l3czfRqUIYSc4CnR/oaK+G9OqZj/YFDdRIlM5IPsW+0qguQ67WWaBzPRhRuvgH8bfUi0HbXTZrv2fkY+jmeLq5WACKNuqui41lmtf/eMO3IjPr1Vmug67SRVhkkZJN4ma2kj9kWAusN1riupzJyTeYVcQ+Uhjzt7hpL/FT88yqXHEgDaU3eYcgpSHm0AaV559vi9gkDEyyoTtL0veaoND3vyx+Smq8VCAp8ZGQkeqRJ5QWu2HLlGoEKbd789JsJNQTmmhtDV/yNEDBsleVPzi6T1JDmCsghQCmxcxor2OBO73tR7ja/ptmIl3NRekx2b7ek4dEfzy01t0vuPQp/GM9PAjlXq6wko3Y1pK1/jnjTM1B5aI60Hhe0PX/Fepx1uqMnQseCpDs2Nf/Xy8A32uQT/FQW4EhrbPDPB7Fvsh77AYn0qLW7MAzKAXFY=
+  file: build-bionic.zip
+  skip_cleanup: true
+  draft: true
+  on:
+    repo: samuelngsh-testing/siqad
