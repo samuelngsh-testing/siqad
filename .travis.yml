@@ -1,43 +1,52 @@
-os: linux
-dist: bionic
+os: windows
 language: cpp
 compiler: gcc
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    - ubuntu-sdk-team/ppa
-    packages:
-    - cmake
-    - gcc-7
-    - g++-7
-    - qtchooser
-    - qt5-default
-    - libqt5svg5-dev
-    - qttools5-dev
-    - qttools5-dev-tools
-    - libqt5charts5
-    - libqt5charts5-dev
-    - libboost-dev
-    - libboost-filesystem-dev
-    - libboost-system-dev
-    - libboost-thread-dev
-    - pkg-config
-    - zip
+before_install:
+- |-
+    case $TRAVIS_OS_NAME in
+      windows)
+        [[ ! -f C:/tools/msys64/msys2_shell.cmd ]] && rm -rf C:/tools/msys64
+        choco uninstall -y mingw
+        choco upgrade --no-progress -y msys2
+        export msys2='cmd //C RefreshEnv.cmd '
+        export msys2+='& set MSYS=winsymlinks:nativestrict '
+        export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
+        export mingw64="$msys2 -mingw64 -full-path -here -c \$\* --"
+        export msys2+=" -msys2 -c \$\* --"
+        $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
+        ## Install more MSYS2 packages from https://packages.msys2.org/base here
+        $msys2 pacman -S mingw-w64-gcc mingw-w64-pkg-config mingw-w64-boost mingw-w64-qt5-static
+        taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
+        export PATH=/C/tools/msys64/mingw64/bin:$PATH
+        export MAKE=mingw32-make  # so that Autotools can find it
+        ;;
+    esac
+before_cache:
+- |-
+    case $TRAVIS_OS_NAME in
+      windows)
+        # https://unix.stackexchange.com/a/137322/107554
+        $msys2 pacman --sync --clean --noconfirm
+        ;;
+    esac
+cache:
+    directories:
+    - $HOME/AppData/Local/Temp/chocolatey
+    - /C/tools/msys64
 script:
-- export CC=gcc-7
-- export CXX=g++-7
-- cmake --version
-- cmake CMakeLists.txt
-- mkdir build
-- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-bionic
+  #- export CC=gcc-7
+  #- export CXX=g++-7
+- ${MINGW_PREFIX}/bin/cmake --version
+- ${MINGW_PREFIX}/bin/cmake CMakeLists.txt
+- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64
 - make install
-- zip -r build-bionic.zip build-bionic
+- find .
+- zip -r build-w64.zip build-w64
 deploy:
   provider: releases
   api_key:
     secure: Ckuaavh64vpBm9AHv+rgLNwdM6z4Op8C6CAJvSeC6pnmOvgOtfpmo27Y0cDdm0eEhuejbJrXg8PSr4LaeuBQBALLmhlVVvAVF/7So4Vy33WYYrAOfY6kDCKiT6L6LcvafzdlLf4+hGV5ek64ovPLH53WoDCqwKX0dvTL1j+IunZF7Rw+vEZ3muUG+OVvvoF1zUaiZ7+wd/vZvyNc6ScRy7VJOrNR+QX0NyiA2cirHAjAANh9l3czfRqUIYSc4CnR/oaK+G9OqZj/YFDdRIlM5IPsW+0qguQ67WWaBzPRhRuvgH8bfUi0HbXTZrv2fkY+jmeLq5WACKNuqui41lmtf/eMO3IjPr1Vmug67SRVhkkZJN4ma2kj9kWAusN1riupzJyTeYVcQ+Uhjzt7hpL/FT88yqXHEgDaU3eYcgpSHm0AaV559vi9gkDEyyoTtL0veaoND3vyx+Smq8VCAp8ZGQkeqRJ5QWu2HLlGoEKbd789JsJNQTmmhtDV/yNEDBsleVPzi6T1JDmCsghQCmxcxor2OBO73tR7ja/ptmIl3NRekx2b7ek4dEfzy01t0vuPQp/GM9PAjlXq6wko3Y1pK1/jnjTM1B5aI60Hhe0PX/Fepx1uqMnQseCpDs2Nf/Xy8A32uQT/FQW4EhrbPDPB7Fvsh77AYn0qLW7MAzKAXFY=
-  file: build-bionic.zip
+  file: build-w64.zip
   skip_cleanup: true
   draft: true
   on:
