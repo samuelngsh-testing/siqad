@@ -39,8 +39,8 @@ script:
   #- export CXX=g++-7
   #- cmake --version
   #- $mingw64 which cmake
-- $mingw64 /C/tools/msys64/mingw64/bin/cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64 -G "MinGW Makefiles" CMakeLists.txt
-- $mingw64 mingw32-make install
+- /C/tools/msys64/mingw64/bin/cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64 -G "MinGW Makefiles" CMakeLists.txt
+- /C/tools/msys64/mingw64/bin/mingw32-make install
   #- find .
   #- zip -r build-w64.zip build-w64
 deploy:
