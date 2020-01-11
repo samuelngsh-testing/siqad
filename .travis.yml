@@ -37,11 +37,12 @@ cache:
 script:
   #- export CC=gcc-7
   #- export CXX=g++-7
-- cmake --version
-- cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64 -G "MinGW Makefiles" CMakeLists.txt
+  #- cmake --version
+- which cmake
+- cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=build-w64 -G "MinGW Makefiles" CMakeLists.txt
 - make install
-- find .
-- zip -r build-w64.zip build-w64
+  #- find .
+  #- zip -r build-w64.zip build-w64
 deploy:
   provider: releases
   api_key:
