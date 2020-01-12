@@ -2,6 +2,7 @@
 
 set -e
 
+proj_root=`pwd`
 inst_dir=build-w64
 bin_root="${inst_dir}/release"
 simanneal_bin_root="${bin_root}/phys/simanneal"
@@ -17,8 +18,8 @@ echo `find .`
 cp `ldd "${bin_root}/siqad.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${bin_root}"
 cp `ldd "${simanneal_bin_root}/simanneal.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${simanneal_bin_root}"
 
-cd build-w64
+cd "${bin_root}"
 windeployqt siqad.exe
-cd ..
+cd "${proj_root}"
 
-zip -r build-w64.zip build-w64
+zip -r build-w64.zip "${inst_dir}"
