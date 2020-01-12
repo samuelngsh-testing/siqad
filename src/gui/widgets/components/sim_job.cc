@@ -188,8 +188,8 @@ bool JobStep::readResults()
       job_results.insert(comp::JobResult::DBLocationsResult,
                          new comp::DBLocations(&rs));
     } else if (rs.name() == "elec_dist") {
-      job_results.insert(comp::JobResult::ElectronConfigsResult,
-                         new comp::ElectronConfigSet(&rs));
+      job_results.insert(comp::JobResult::ChargeConfigsResult,
+                         new comp::ChargeConfigSet(&rs));
     } else if (rs.name() == "potential_map") {
       job_results.insert(comp::JobResult::PotentialLandscapeResult,
                          new comp::PotentialLandscape(&rs, QFileInfo(resultPath()).absolutePath()));
@@ -204,8 +204,8 @@ bool JobStep::readResults()
   // TODO remove the following workaround after SiQADConn has been updated to
   // put DB physical locations inside electron config set
   if (job_results.keys().contains(comp::JobResult::DBLocationsResult)
-      && job_results.keys().contains(comp::JobResult::ElectronConfigsResult)) {
-    comp::ElectronConfigSet *ecs = static_cast<comp::ElectronConfigSet*>(job_results.value(comp::JobResult::ElectronConfigsResult));
+      && job_results.keys().contains(comp::JobResult::ChargeConfigsResult)) {
+    comp::ChargeConfigSet *ecs = static_cast<comp::ChargeConfigSet*>(job_results.value(comp::JobResult::ChargeConfigsResult));
     ecs->setDBPhysicalLocations(
         static_cast<comp::DBLocations*>(job_results.value(comp::JobResult::DBLocationsResult))->locations());
   }

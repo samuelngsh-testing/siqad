@@ -15,7 +15,7 @@
 using namespace gui;
 
 typedef comp::JobResult JR;
-typedef comp::ElectronConfigSet ECS;
+typedef comp::ChargeConfigSet ECS;
 typedef comp::PotentialLandscape PL;
 
 // Qt::Dialog makes the main window unclickable. Use Qt::Window if this behavior should be changed.
@@ -56,57 +56,57 @@ SimVisualizer::SimVisualizer(DesignPanel *design_pan, QWidget *parent)
 
   // TODO the following can probably be templated
 
-  // electron configuration results
-  elec_config_set_visualizer = new ElectronConfigSetVisualizer(design_pan);
-  gb_elec_configs = new QGroupBox("Electron Configurations");
-  cb_job_steps_elec_configs = new QComboBox();
-  QToolButton *tb_refresh_job_steps_elec_configs = new QToolButton();
-  tb_refresh_job_steps_elec_configs->setIcon(QIcon::fromTheme("view-refresh"));
-  tb_refresh_job_steps_elec_configs->setText("Refresh");
-  tb_refresh_job_steps_elec_configs->setToolTip("Refresh result view");
-  QHBoxLayout *hl_job_steps_elec_configs = new QHBoxLayout();
-  hl_job_steps_elec_configs->addWidget(new QLabel("Relevant job steps"));
-  hl_job_steps_elec_configs->addWidget(cb_job_steps_elec_configs);
-  hl_job_steps_elec_configs->addWidget(tb_refresh_job_steps_elec_configs);
-  QVBoxLayout *vl_elec_configs = new QVBoxLayout();
-  vl_elec_configs->addLayout(hl_job_steps_elec_configs);
-  vl_elec_configs->addWidget(elec_config_set_visualizer);
-  gb_elec_configs->setLayout(vl_elec_configs);
+  // charge configuration results
+  charge_config_set_visualizer = new ChargeConfigSetVisualizer(design_pan);
+  gb_charge_configs = new QGroupBox("Charge Configurations");
+  cb_job_steps_charge_configs = new QComboBox();
+  QToolButton *tb_refresh_job_steps_charge_configs = new QToolButton();
+  tb_refresh_job_steps_charge_configs->setIcon(QIcon::fromTheme("view-refresh"));
+  tb_refresh_job_steps_charge_configs->setText("Refresh");
+  tb_refresh_job_steps_charge_configs->setToolTip("Refresh result view");
+  QHBoxLayout *hl_job_steps_charge_configs = new QHBoxLayout();
+  hl_job_steps_charge_configs->addWidget(new QLabel("Relevant job steps"));
+  hl_job_steps_charge_configs->addWidget(cb_job_steps_charge_configs);
+  hl_job_steps_charge_configs->addWidget(tb_refresh_job_steps_charge_configs);
+  QVBoxLayout *vl_charge_configs = new QVBoxLayout();
+  vl_charge_configs->addLayout(hl_job_steps_charge_configs);
+  vl_charge_configs->addWidget(charge_config_set_visualizer);
+  gb_charge_configs->setLayout(vl_charge_configs);
 
-  auto setElectronConfigSetJobStep = [this](const int &job_step_ind)
+  auto setChargeConfigSetJobStep = [this](const int &job_step_ind)
   {
     comp::JobStep *js = sim_job->getJobStep(job_step_ind);
-    ECS *elec_config_set = static_cast<ECS*>(
-        js->jobResults().value(comp::JobResult::ElectronConfigsResult));
-    elec_config_set_visualizer->setElectronConfigSet(elec_config_set);
+    ECS *charge_config_set = static_cast<ECS*>(
+        js->jobResults().value(comp::JobResult::ChargeConfigsResult));
+    charge_config_set_visualizer->setChargeConfigSet(charge_config_set);
   };
 
   // update electron config set selection GUI elements when a job step is selected
-  connect(cb_job_steps_elec_configs, &QComboBox::currentTextChanged,
-          [setElectronConfigSetJobStep](const QString &str_job_step_ind)
+  connect(cb_job_steps_charge_configs, &QComboBox::currentTextChanged,
+          [setChargeConfigSetJobStep](const QString &str_job_step_ind)
           {
             if (str_job_step_ind.isEmpty())
               return;
-            setElectronConfigSetJobStep(str_job_step_ind.toInt());
+            setChargeConfigSetJobStep(str_job_step_ind.toInt());
           });
 
   // same as above but explicitly for user manual activation
-  connect(cb_job_steps_elec_configs, QOverload<const QString &>::of(&QComboBox::activated),
-          [setElectronConfigSetJobStep](const QString &str_job_step_ind)
+  connect(cb_job_steps_charge_configs, QOverload<const QString &>::of(&QComboBox::activated),
+          [setChargeConfigSetJobStep](const QString &str_job_step_ind)
           {
             if (str_job_step_ind.isEmpty())
               return;
-            setElectronConfigSetJobStep(str_job_step_ind.toInt());
+            setChargeConfigSetJobStep(str_job_step_ind.toInt());
           });
 
   // map refresh button to reactivate the currently selected electron config set step
-  connect(tb_refresh_job_steps_elec_configs, &QToolButton::pressed,
-          [this, setElectronConfigSetJobStep]()
+  connect(tb_refresh_job_steps_charge_configs, &QToolButton::pressed,
+          [this, setChargeConfigSetJobStep]()
           {
-            QString str_job_step_ind = cb_job_steps_elec_configs->currentText();
+            QString str_job_step_ind = cb_job_steps_charge_configs->currentText();
             if (str_job_step_ind.isEmpty())
               return;
-            setElectronConfigSetJobStep(str_job_step_ind.toInt());
+            setChargeConfigSetJobStep(str_job_step_ind.toInt());
           });
 
   // potential landscape results
@@ -157,7 +157,7 @@ SimVisualizer::SimVisualizer(DesignPanel *design_pan, QWidget *parent)
   connect(tb_refresh_job_steps_pot_landscape, &QToolButton::pressed,
           [this, setPotentialLandscapeJobStep]()
           {
-            QString str_job_step_ind = cb_job_steps_elec_configs->currentText();
+            QString str_job_step_ind = cb_job_steps_charge_configs->currentText();
             if (str_job_step_ind.isEmpty())
               return;
             setPotentialLandscapeJobStep(cb_job_steps_pot_landscape->currentText().toInt());
@@ -166,7 +166,7 @@ SimVisualizer::SimVisualizer(DesignPanel *design_pan, QWidget *parent)
   // set widget layout
   QVBoxLayout *vl_main = new QVBoxLayout();
   vl_main->addWidget(gb_job_info);
-  vl_main->addWidget(gb_elec_configs);
+  vl_main->addWidget(gb_charge_configs);
   vl_main->addWidget(gb_pot_landscape);
   vl_main->addStretch();
 
@@ -204,15 +204,15 @@ void SimVisualizer::showJob(comp::SimJob *job)
   // TODO update siqadconn to put physloc and elecconfigresult inside the same parent node
   QList<JR::ResultType> result_types = job->resultTypeStepMap().uniqueKeys();
 
-  // deal with ElectronConfigsResult type
-  cb_job_steps_elec_configs->clear();
-  if (result_types.contains(JR::ElectronConfigsResult)) {
-    gb_elec_configs->setEnabled(true);
-    for (comp::JobStep *step : job->resultTypeStepMap().values(JR::ElectronConfigsResult)) {
-      cb_job_steps_elec_configs->addItem(QString::number(step->jobStepPlacement()));
+  // deal with ChargeConfigsResult type
+  cb_job_steps_charge_configs->clear();
+  if (result_types.contains(JR::ChargeConfigsResult)) {
+    gb_charge_configs->setEnabled(true);
+    for (comp::JobStep *step : job->resultTypeStepMap().values(JR::ChargeConfigsResult)) {
+      cb_job_steps_charge_configs->addItem(QString::number(step->jobStepPlacement()));
     }
   } else {
-    gb_elec_configs->setEnabled(false);
+    gb_charge_configs->setEnabled(false);
   }
 
   // deal with PotentialLandscapeResult type
@@ -233,7 +233,7 @@ void SimVisualizer::clearJob()
   // widgets
   job_info_model->clear();
 
-  elec_config_set_visualizer->clearVisualizer();
+  charge_config_set_visualizer->clearVisualizer();
   pot_landscape_visualizer->clearVisualizer();
 
   sim_job = nullptr;
@@ -355,7 +355,7 @@ bool SimVisualizer::showElecDist(int dist_ind)
 {
   if(!show_job || dist_ind < 0 || dist_ind >= show_job->filteredElecDists().size())
     return false;
-  text_elec_count->setText(QString::number(show_job->filteredElecDists().at(dist_ind).elec_count));
+  text_charge_count->setText(QString::number(show_job->filteredElecDists().at(dist_ind).charge_count));
   emit showElecDistOnScene(show_job, dist_ind);
   return true;
 }
@@ -364,13 +364,13 @@ bool SimVisualizer::showElecDist(int dist_ind)
 void SimVisualizer::showElecCountFilter(int check_state)
 {
   bool show = check_state == Qt::Checked;
-  elec_count_filter_group->setVisible(show);
+  charge_count_filter_group->setVisible(show);
 
   // change default filter selection to the electron count of the currently
   // selected configuration
   if (show && slider_dist_sel->sliderPosition() > 0)
-    slider_elec_count_sel->setValue(show_job->elec_counts.indexOf(show_job->
-          filteredElecDists().at(slider_dist_sel->sliderPosition()-1).elec_count)+1);
+    slider_charge_count_sel->setValue(show_job->charge_counts.indexOf(show_job->
+          filteredElecDists().at(slider_dist_sel->sliderPosition()-1).charge_count)+1);
 
   // apply the filter update
   elecCountFilterUpdate(show);
@@ -410,12 +410,12 @@ void SimVisualizer::updateElecDistOptions()
     return;
 
   if (show_job->jobState() != comp::SimJob::FinishedNormally 
-      || show_job->elec_dists.isEmpty()) {
+      || show_job->charge_dists.isEmpty()) {
     // reset electron count filter options
-    slider_elec_count_sel->setMinimum(0);
-    slider_elec_count_sel->setMaximum(0);
-    slider_elec_count_sel->setValue(0);
-    text_elec_count->setText("0");
+    slider_charge_count_sel->setMinimum(0);
+    slider_charge_count_sel->setMaximum(0);
+    slider_charge_count_sel->setValue(0);
+    text_charge_count->setText("0");
 
     // reset electron distribution options
     slider_dist_sel->setMinimum(0);
@@ -428,21 +428,21 @@ void SimVisualizer::updateElecDistOptions()
   } else {
     // control visibility of relevant groups
     dist_group->setVisible(true);
-    elec_count_filter_group->setVisible(false);
+    charge_count_filter_group->setVisible(false);
 
     // update electron count filter options
-    int elec_counts_size = show_job->elec_counts.size();
-    int min_elec_count_sel = elec_counts_size > 0;
-    slider_elec_count_sel->setMinimum(min_elec_count_sel);
-    slider_elec_count_sel->setMaximum(elec_counts_size);
-    slider_elec_count_sel->setValue(min_elec_count_sel);
-    text_elec_count->setText(tr("%1").arg(elec_counts_size > 0 ?
-        show_job->elec_counts[min_elec_count_sel-1] : min_elec_count_sel));
-    cb_elec_count_filter->setCheckState(Qt::Unchecked); // disable the filter by default
+    int charge_counts_size = show_job->charge_counts.size();
+    int min_charge_count_sel = charge_counts_size > 0;
+    slider_charge_count_sel->setMinimum(min_charge_count_sel);
+    slider_charge_count_sel->setMaximum(charge_counts_size);
+    slider_charge_count_sel->setValue(min_charge_count_sel);
+    text_charge_count->setText(tr("%1").arg(charge_counts_size > 0 ?
+        show_job->charge_counts[min_charge_count_sel-1] : min_charge_count_sel));
+    cb_charge_count_filter->setCheckState(Qt::Unchecked); // disable the filter by default
     showElecCountFilter(Qt::Unchecked);                 // force no filter workaround
 
     // update electron distribution options
-    slider_dist_sel->setValue(show_job->default_elec_dist_ind+1);
+    slider_dist_sel->setValue(show_job->default_charge_dist_ind+1);
     distSelUpdate();
   }
 }
@@ -564,22 +564,22 @@ void SimVisualizer::initSimVisualizer()
   QLabel *label_dist_energy_unit = new QLabel("eV");
 
   // show the electron count and option to filter
-  QLabel *label_elec_count_filter = new QLabel(tr("Electron Count:"));
-  text_elec_count = new QLabel("0");
-  cb_elec_count_filter = new QCheckBox("Filter");
-  elec_count_filter_group = new QGroupBox(tr("Electron Count Filter"));
-  QPushButton *button_elec_count_prev = new QPushButton(tr("<"));
-  QPushButton *button_elec_count_next = new QPushButton(tr(">"));
+  QLabel *label_charge_count_filter = new QLabel(tr("Electron Count:"));
+  text_charge_count = new QLabel("0");
+  cb_charge_count_filter = new QCheckBox("Filter");
+  charge_count_filter_group = new QGroupBox(tr("Electron Count Filter"));
+  QPushButton *button_charge_count_prev = new QPushButton(tr("<"));
+  QPushButton *button_charge_count_next = new QPushButton(tr(">"));
 
   // show the average distribution for one of the few presets
-  QLabel *label_average_elec_dist = new QLabel("Show average for:");
-  QPushButton *button_average_elec_dist_all = new QPushButton(tr("All distributions"));
-  QPushButton *button_average_elec_dist_degen = new QPushButton(tr("Degenerate states"));
+  QLabel *label_average_charge_dist = new QLabel("Show average for:");
+  QPushButton *button_average_charge_dist_all = new QPushButton(tr("All distributions"));
+  QPushButton *button_average_charge_dist_degen = new QPushButton(tr("Degenerate states"));
 
   button_dist_prev->setShortcut(tr("CTRL+H"));
   button_dist_next->setShortcut(tr("CTRL+L"));
 
-  slider_elec_count_sel = new QSlider(Qt::Horizontal);
+  slider_charge_count_sel = new QSlider(Qt::Horizontal);
   slider_dist_sel = new QSlider(Qt::Horizontal);
   updateElecDistOptions();
   updateViewPotentialOptions();
@@ -602,25 +602,25 @@ void SimVisualizer::initSimVisualizer()
   dist_energy_hl->addWidget(label_dist_energy_unit);
 
   // show electron count and option to filter
-  QHBoxLayout *elec_count_hl = new QHBoxLayout;
-  elec_count_hl->addWidget(label_elec_count_filter);
-  elec_count_hl->addWidget(text_elec_count);
-  elec_count_hl->addWidget(cb_elec_count_filter);
+  QHBoxLayout *charge_count_hl = new QHBoxLayout;
+  charge_count_hl->addWidget(label_charge_count_filter);
+  charge_count_hl->addWidget(text_charge_count);
+  charge_count_hl->addWidget(cb_charge_count_filter);
 
   // buttons for navigating through electron count selections
-  QHBoxLayout *elec_count_filter_options_hl = new QHBoxLayout;
-  elec_count_filter_options_hl->addWidget(button_elec_count_prev);
-  elec_count_filter_options_hl->addWidget(slider_elec_count_sel);
-  elec_count_filter_options_hl->addWidget(button_elec_count_next);
+  QHBoxLayout *charge_count_filter_options_hl = new QHBoxLayout;
+  charge_count_filter_options_hl->addWidget(button_charge_count_prev);
+  charge_count_filter_options_hl->addWidget(slider_charge_count_sel);
+  charge_count_filter_options_hl->addWidget(button_charge_count_next);
 
-  elec_count_filter_group->setLayout(elec_count_filter_options_hl);
+  charge_count_filter_group->setLayout(charge_count_filter_options_hl);
 
   // average
   QHBoxLayout *dist_average_hl = new QHBoxLayout;
   QVBoxLayout *dist_average_buttons_hl = new QVBoxLayout;
-  dist_average_hl->addWidget(label_average_elec_dist);
-  dist_average_buttons_hl->addWidget(button_average_elec_dist_all);
-  dist_average_buttons_hl->addWidget(button_average_elec_dist_degen);
+  dist_average_hl->addWidget(label_average_charge_dist);
+  dist_average_buttons_hl->addWidget(button_average_charge_dist_all);
+  dist_average_buttons_hl->addWidget(button_average_charge_dist_degen);
   dist_average_hl->addLayout(dist_average_buttons_hl);
 
   // entire elec distribution group
@@ -628,9 +628,9 @@ void SimVisualizer::initSimVisualizer()
   dist_vl->addLayout(dist_sel_hl);
   dist_vl->addLayout(dist_sel_buttons_hl);
   dist_vl->addLayout(dist_energy_hl);
-  dist_vl->addLayout(elec_count_hl);
-  //dist_vl->addLayout(elec_count_filter_options_hl);
-  dist_vl->addWidget(elec_count_filter_group);
+  dist_vl->addLayout(charge_count_hl);
+  //dist_vl->addLayout(charge_count_filter_options_hl);
+  dist_vl->addWidget(charge_count_filter_group);
   dist_vl->addLayout(dist_average_hl);
 
   dist_group->setLayout(dist_vl);
@@ -646,17 +646,17 @@ void SimVisualizer::initSimVisualizer()
           this, &gui::SimVisualizer::distPrev);
   connect(button_dist_next, &QAbstractButton::clicked,
           this, &gui::SimVisualizer::distNext);
-  connect(slider_elec_count_sel, static_cast<void(QSlider::*)(int)>(&QSlider::valueChanged),
+  connect(slider_charge_count_sel, static_cast<void(QSlider::*)(int)>(&QSlider::valueChanged),
           this, &gui::SimVisualizer::elecCountFilterUpdate);
-  connect(button_elec_count_prev, &QAbstractButton::clicked,
+  connect(button_charge_count_prev, &QAbstractButton::clicked,
           this, &gui::SimVisualizer::elecCountPrev);
-  connect(button_elec_count_next, &QAbstractButton::clicked,
+  connect(button_charge_count_next, &QAbstractButton::clicked,
           this, &gui::SimVisualizer::elecCountNext);
-  connect(cb_elec_count_filter, &QCheckBox::stateChanged,
+  connect(cb_charge_count_filter, &QCheckBox::stateChanged,
           this, &gui::SimVisualizer::showElecCountFilter);
-  connect(button_average_elec_dist_all, &QAbstractButton::clicked,
+  connect(button_average_charge_dist_all, &QAbstractButton::clicked,
           this, &gui::SimVisualizer::showAverageElecDist);
-  connect(button_average_elec_dist_degen, &QAbstractButton::clicked,
+  connect(button_average_charge_dist_degen, &QAbstractButton::clicked,
           this, &gui::SimVisualizer::showAverageElecDistDegen);
   connect(button_view_potential, &QAbstractButton::clicked,
           this, &gui::SimVisualizer::showPotential);
@@ -679,11 +679,11 @@ void SimVisualizer::jobSelUpdate()
 
 void SimVisualizer::elecCountFilterUpdate(bool apply_filter)
 {
-  if (show_job->elec_counts.isEmpty())
+  if (show_job->charge_counts.isEmpty())
     return;
 
-  int elec_counts_ind = slider_elec_count_sel->sliderPosition() - 1;
-  text_elec_count->setText(tr("%1").arg(show_job->elec_counts[elec_counts_ind]));
+  int charge_counts_ind = slider_charge_count_sel->sliderPosition() - 1;
+  text_charge_count->setText(tr("%1").arg(show_job->charge_counts[charge_counts_ind]));
 
   // save the current distribution being shown so it can be reselected later
   comp::SimJob::elecDist show_dist;
@@ -692,7 +692,7 @@ void SimVisualizer::elecCountFilterUpdate(bool apply_filter)
     show_dist = show_job->filteredElecDists().at(slider_dist_sel->sliderPosition()-1);
 
   if (apply_filter)
-    show_job->applyElecDistsFilter(show_job->elec_counts[elec_counts_ind]);
+    show_job->applyElecDistsFilter(show_job->charge_counts[charge_counts_ind]);
   else
     show_job->applyElecDistsFilter(-1);
 
@@ -707,42 +707,42 @@ void SimVisualizer::elecCountFilterUpdate(bool apply_filter)
   slider_dist_sel->setMinimum(min_sel);
   slider_dist_sel->setMaximum(dist_count);
   slider_dist_sel->setValue(dist_ind);
-  text_dist_selected->setText(tr("%1/%2").arg(show_job->default_elec_dist_ind+1).arg(dist_count));
+  text_dist_selected->setText(tr("%1/%2").arg(show_job->default_charge_dist_ind+1).arg(dist_count));
   distSelUpdate();
 }
 
 
 void SimVisualizer::elecCountPrev()
 {
-  if(!slider_elec_count_sel)
+  if(!slider_charge_count_sel)
     return;
 
-  if(slider_elec_count_sel->value() > 1)
-    slider_elec_count_sel->setValue(slider_elec_count_sel->value() - 1);
+  if(slider_charge_count_sel->value() > 1)
+    slider_charge_count_sel->setValue(slider_charge_count_sel->value() - 1);
 }
 
 void SimVisualizer::elecCountNext()
 {
-  if (!slider_elec_count_sel)
+  if (!slider_charge_count_sel)
     return;
 
-  if (!(slider_elec_count_sel->value() + 1 > slider_elec_count_sel->maximum()))
-    slider_elec_count_sel->setValue(slider_elec_count_sel->value() + 1);
+  if (!(slider_charge_count_sel->value() + 1 > slider_charge_count_sel->maximum()))
+    slider_charge_count_sel->setValue(slider_charge_count_sel->value() + 1);
 }
 
 
 void SimVisualizer::distSelUpdate()
 {
-  if (show_job->elec_dists.isEmpty())
+  if (show_job->charge_dists.isEmpty())
     return;
-  int elec_ind = slider_dist_sel->sliderPosition() - 1;
+  int charge_ind = slider_dist_sel->sliderPosition() - 1;
   text_dist_selected->setText(tr("%1/%2").arg(
       slider_dist_sel->value()).arg(show_job->filteredElecDists().size()));
-  showElecDist(elec_ind);
+  showElecDist(charge_ind);
 
   QString energy_text;
-  if (elec_ind >= 0 && elec_ind < show_job->filteredElecDists().size())
-    energy_text = QString::number(show_job->filteredElecDists().at(elec_ind).energy);
+  if (charge_ind >= 0 && charge_ind < show_job->filteredElecDists().size())
+    energy_text = QString::number(show_job->filteredElecDists().at(charge_ind).energy);
   else
     energy_text = "--";
   text_dist_energy->setText(energy_text);
