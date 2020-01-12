@@ -33,7 +33,7 @@ gui::ApplicationGUI::ApplicationGUI(const QString &f_path, QWidget *parent)
   start_time = QDateTime::currentDateTime();
 
   // initialize default save_dir
-  save_dir = QDir::homePath();
+  save_dir.setPath(QDir::homePath());
 
   // initialise GUI
   initGUI();

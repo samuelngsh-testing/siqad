@@ -128,7 +128,7 @@ ECSVisualizer::ChargeConfigSetVisualizer(DesignPanel *design_pan, QWidget *paren
   QFormLayout *fl_charge_configs = new QFormLayout();
   fl_charge_configs->setLabelAlignment(Qt::AlignLeft);
   fl_charge_configs->addRow(new QLabel("Energy"), l_energy_val);
-  fl_charge_configs->addRow(new QLabel("Net charge"), l_net_charge_val);
+  fl_charge_configs->addRow(new QLabel("Net negative charge"), l_net_charge_val);
   fl_charge_configs->addRow(new QLabel("Physically valid"), l_is_valid);
   fl_charge_configs->addRow(new QLabel("Occurances of this config"), l_config_occ);
   fl_charge_configs->addRow(new QLabel("Occurances of this electron count"), l_pop_occ);
