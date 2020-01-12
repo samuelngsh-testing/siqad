@@ -1,16 +1,16 @@
 powershell Set-MpPreference -DisableRealTimeMonitoring 1
 powershell Set-MpPreference -DisableBehaviorMonitoring 1
 
-gdr
+#gdr
 
-choco list -localonly
+#choco list -localonly
 choco uninstall -y mingw llvm wsl
 
-gdr
+#gdr
 
 choco install -q msys2
 taskkill -IM "gpg-agent.exe" -F
 
-gdr
+#gdr
 
-c:\tools\msys64\usr\bin\bash.exe -l -c "pacman --noconfirm --needed -S zip mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5 mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-boost"
+c:\tools\msys64\usr\bin\bash.exe -l -c "pacman --quiet --noconfirm --needed -S zip mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5 mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-boost"

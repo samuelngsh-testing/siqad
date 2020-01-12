@@ -2,7 +2,7 @@
 
 set -e
 
-inst_dir=build-w64
+inst_dir=build-w64/release
 simanneal_inst_dir="${inst_dir}/phys/simanneal"
 
 which cmake 
