@@ -16,13 +16,16 @@ mingw32-make -j8 install
 #echo `find .`
 
 echo "SiQAD dependencies:"
-echo `ldd "${bin_root}/siqad.exe"`
+echo `cygcheck "${bin_root}/siqad.exe" | grep -e 'mingw64.*dll' | sed -e 's/^ *//' | sort -u`
+cp `cygcheck "${bin_root}/siqad.exe" | grep -e 'mingw64.*dll' | sed -e 's/^ *//' | sort -u` "${bin_root}"
+#echo `ldd "${bin_root}/siqad.exe"`
+#cp `ldd "${bin_root}/siqad.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${bin_root}"
 
 echo "SimAnneal dependencies:"
-echo `ldd "${simanneal_bin_root}/simanneal.exe"`
-
-cp `ldd "${bin_root}/siqad.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${bin_root}"
-cp `ldd "${simanneal_bin_root}/simanneal.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${simanneal_bin_root}"
+echo `cygcheck "${simanneal_bin_root}/simanneal.exe" | grep -e 'mingw64.*dll' | sed -e 's/^ *//' | sort -u`
+cp `cygcheck "${simanneal_bin_root}/simanneal.exe" | grep -e 'mingw64.*dll' | sed -e 's/^ *//' | sort -u` "${simanneal_bin_root}"
+#echo `ldd "${simanneal_bin_root}/simanneal.exe"`
+#cp `ldd "${simanneal_bin_root}/simanneal.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${simanneal_bin_root}"
 
 cd "${bin_root}"
 windeployqt siqad.exe
