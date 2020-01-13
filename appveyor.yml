@@ -1,0 +1,18 @@
+version: '0.2.{build}'
+
+image: Visual Studio 2015
+
+platform:
+  - x64
+
+configuration:
+  - Release
+
+install:
+  - git submodule update --init --recursive
+  - set QTDIR=C:\Qt\5.12.5\mingw73_64
+  - set PATH=%PATH%;%QTDIR%\bin;C:\mingw-w64\x86_64-7.3.0-posix-seh-rt_v5-rev0
+
+build_script:
+  - cmake -CMAKE_INSTALL_PREFIX=build-w64 -G "MinGW Makefile"
+  - mingw64-make install
