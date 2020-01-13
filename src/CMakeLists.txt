@@ -64,7 +64,7 @@ set(SOURCES
     gui/widgets/primitives/visual_aids/scale_bar.cc
     #components for widgets
    	gui/widgets/components/plugin_engine.cc
-   	gui/widgets/components/sim_engine.cc
+    #gui/widgets/components/sim_engine.cc
    	gui/widgets/components/sim_job.cc
     gui/widgets/components/job_results/job_result.cc
     gui/widgets/components/job_results/db_locations.cc

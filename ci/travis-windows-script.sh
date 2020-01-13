@@ -28,7 +28,7 @@ cp `cygcheck "${simanneal_bin_root}/simanneal.exe" | grep -e 'mingw64.*dll' | se
 #cp `ldd "${simanneal_bin_root}/simanneal.exe" | grep -o -e '/mingw64.*dll' | sort -u` "${simanneal_bin_root}"
 
 cd "${bin_root}"
-windeployqt siqad.exe
+windeployqt siqad.exe --no-translations
 cd "${proj_root}"
 
 zip -r build-w64.zip "${inst_dir}"
