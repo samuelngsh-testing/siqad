@@ -13,4 +13,4 @@ taskkill -IM "gpg-agent.exe" -F
 
 #gdr
 
-c:\tools\msys64\usr\bin\bash.exe -l -c "pacman --quiet --noconfirm --needed -S zip mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5 mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-boost"
+c:\tools\msys64\usr\bin\bash.exe -l -c "pacman --quiet --noconfirm --needed -S zip base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc mingw-w64-x86_64-qt5 mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-boost"
