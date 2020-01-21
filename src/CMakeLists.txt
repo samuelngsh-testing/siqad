@@ -64,7 +64,7 @@ set(SOURCES
     gui/widgets/primitives/visual_aids/scale_bar.cc
     #components for widgets
    	gui/widgets/components/plugin_engine.cc
-   	gui/widgets/components/sim_engine.cc
+    #gui/widgets/components/sim_engine.cc
    	gui/widgets/components/sim_job.cc
     gui/widgets/components/job_results/job_result.cc
     gui/widgets/components/job_results/db_locations.cc
@@ -110,7 +110,7 @@ include_directories(
 set(CMAKE_AUTOMOC ON)
 #set(CMAKE_AUTORCC ON)
 
-add_executable(siqad ${SOURCES} ${CUSTOM_RSC})
+add_executable(siqad WIN32 ${SOURCES} ${CUSTOM_RSC})
 # for windows, add WIN32 to avoid the console window showing up
 #add_executable(siqad WIN32 ${SOURCES} ${CUSTOM_RSC})
 #add_executable(siqad ${SOURCES})
